@@ -9,21 +9,27 @@ const ManageMyPosts = () => {
     const { user } = useContext(AuthContext)
     const [posts, setPosts] = useState([])
     const [requests, setRequests] = useState([])
+    // const [loader,setLoader] = useState(true)
+    const [loadingPosts, setLoadingPosts] = useState(true);
+const [loadingRequests, setLoadingRequests] = useState(true);
     const axiosSecure = useAxiosSecure();
     useEffect(() => {
+        setLoadingPosts(true)
         // axios.get(`http://localhost:5000/allVolunteer?email=${user?.email}`,{withCredentials: true})
         axiosSecure.get(`/allVolunteer?email=${user?.email}`)
             .then(res => {
                 setPosts(res.data)
+                setLoadingPosts(false)
             })
     }, [user?.email])
     console.log(posts)
     useEffect(() => {
-
+        setLoadingRequests(true)
         // axios.get(`http://localhost:5000/allRequests?email=${user?.email}`,{withCredentials: true})
         axiosSecure.get(`/allRequests?email=${user?.email}`)
             .then(res => {
                 setRequests(res.data)
+                setLoadingRequests(false)
             })
     }, [user?.email])
     console.log(requests)
@@ -81,8 +87,16 @@ const ManageMyPosts = () => {
             }
         })
     }
+    if (loadingPosts || loadingRequests) {
+        return (
+          <div className="flex justify-center items-center h-[300px]">
+            <span className="loading loading-spinner loading-xl"></span>
+          </div>
+        );
+      }
     return (
         <div>
+           
             <div className="overflow-x-auto">
                 <table className="table">
                     {/* head */}

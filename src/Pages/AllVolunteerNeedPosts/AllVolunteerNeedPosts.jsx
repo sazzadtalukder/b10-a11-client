@@ -6,22 +6,30 @@ const AllVolunteerNeedPosts = () => {
   const [posts, setPosts] = useState([])
   const [search, setSearch] = useState('')
   const [isTableLayout, setIsTableLayout] = useState(true);
-
+  const [loader,setLoader]= useState(true)
+  
   const handleSearch = e => {
     e.preventDefault();
     setSearch(e.target.searchTitle.value);
   }
   console.log(search)
   useEffect(() => {
+    setLoader(true)
     axios.get(`http://localhost:5000/allVolunteer?title=${search}`)
       .then(res => {
         setPosts(res.data)
+        setLoader(false)
       })
   }, [search])
   // console.log(posts)
+  
   return (
     <div>
+     {
+      loader &&  <span className="loading loading-spinner loading-xl"></span>
+     }
       <p>Search post by Title</p>
+      
       <form className="card-body" onSubmit={handleSearch}>
         <fieldset className="fieldset">
           {/* <label className="label">Search by title</label> */}
@@ -30,33 +38,47 @@ const AllVolunteerNeedPosts = () => {
         </fieldset>
 
       </form>
+      
       <button
         onClick={() => setIsTableLayout(!isTableLayout)}
         className="bg-blue-500 text-white px-4 py-2 rounded mb-4"
       >
         Change Layout
       </button>
+      
       {
-        isTableLayout ? <><div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3'>
-
-          {
-            posts.map((post) => <div key={post._id} className="card bg-base-100  shadow-sm">
-              <figure>
-                <img
-                  src={post.thumbnail}
-                  alt="Shoes" />
-              </figure>
-              <div className="card-body">
-                <h2 className="card-title">{post.title}</h2>
-                <p>{post.description}</p>
-                <p>Deadline: {post.deadline}</p>
-                <div className="card-actions justify-center">
-                  <Link to={`/allVolunteer/${post._id}`}><button className="btn btn-primary">View Details</button></Link>
-                </div>
-              </div>
-            </div>)
-          }
-        </div></> : <>
+        isTableLayout ? <> <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        {posts.slice(0, 6).map((post) => (
+                            <div
+                                key={post._id}
+                                className="card bg-white shadow-md hover:shadow-2xl  rounded-2xl overflow-hidden"
+                            >
+                                <figure className="h-48 overflow-hidden">
+                                    <img
+                                        src={post.thumbnail}
+                                        alt={post.title}
+                                        className="w-full h-full object-cover"
+                                    />
+                                </figure>
+                                <div className="card-body p-4">
+                                    <h2 className="card-title text-lg font-semibold mb-2">{post.title}</h2>
+                                    <div className="text-sm text-gray-600 space-y-1 mb-4">
+                                        <p>
+                                            <span className="font-medium">Category:</span> {post.category}
+                                        </p>
+                                        <p>
+                                            <span className="font-medium">Deadline:</span> {post.deadline}
+                                        </p>
+                                    </div>
+                                    <div className="card-actions justify-center">
+                                        <Link to={`/allVolunteer/${post._id}`}>
+                                            <button className="btn btn-primary w-full">View Details</button>
+                                        </Link>
+                                    </div>
+                                </div>
+                            </div>
+                        ))}
+                    </div></> : <>
           <div>
             <div className="overflow-x-auto">
               <table className="table">
