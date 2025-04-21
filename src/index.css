@@ -4,3 +4,7 @@
 @plugin "daisyui" {
     themes: light --default, dark --prefersdark, cupcake,dark;
   }
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 200px; /* Adjust based on your header height */
+  }
