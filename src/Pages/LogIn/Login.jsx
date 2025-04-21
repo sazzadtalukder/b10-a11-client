@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { AuthContext } from '../../Provider/AuthProvider';
+import Swal from 'sweetalert2';
 
 const Login = () => {
     const {loginUser} = useContext(AuthContext)
@@ -13,9 +14,21 @@ const Login = () => {
             loginUser(email,password)
             .then(result=>{
                 console.log(result.user)
+                Swal.fire({
+                    position: "top-end",
+                    icon: "success",
+                    title: "Login Successful",
+                    showConfirmButton: false,
+                    timer: 1500
+                  });
             })
             .catch(er=>{
                 console.log(er)
+                Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    text: er.code,
+                  });
             })
         }
     return (
@@ -35,11 +48,14 @@ const Login = () => {
                             <input name='email' type="email" className="input" placeholder="Email" />
                             <label className="label">Password</label>
                             <input name='password' type="password" className="input" placeholder="Password" />
-                            <div><a className="link link-hover">Forgot password?</a></div>
+                            
                            <button className="btn btn-neutral mt-4">Login</button>
-                            <p>Don't have an Account? Please <Link to='/register'>Register</Link></p>
+                            
+                            <p>Don't have an Account? Please <Link to='/register'><span className='text-red-600 font-bold'>Register</span></Link></p>
                         </fieldset>
+                        
                     </form>
+                    <button className='btn btn-primary m-6'>login With Google</button>
                 </div>
             </div>
         </div>
