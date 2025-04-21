@@ -6,7 +6,17 @@ import Swal from 'sweetalert2';
 const Login = () => {
     const navigate = useNavigate()
     const location = useLocation();
-    const {loginUser} = useContext(AuthContext)
+    const {loginUser,loginWithGoogle } = useContext(AuthContext)
+    const handleGoogle = ()=>{
+        loginWithGoogle()
+        .then(result=>{
+            console.log(result.user)
+            navigate(location?.state ? location.state : '/')
+        })
+        .catch(er=>{
+            console.log(er)
+        })
+    }
         const handleLogin =e=>{
             e.preventDefault();
             const form = e.target;
@@ -58,7 +68,7 @@ const Login = () => {
                         </fieldset>
                         
                     </form>
-                    <button className='btn btn-primary m-6'>login With Google</button>
+                    <button className='btn btn-primary m-6' onClick={handleGoogle}>login With Google</button>
                 </div>
             </div>
         </div>
