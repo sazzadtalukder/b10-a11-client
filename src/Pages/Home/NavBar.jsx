@@ -92,7 +92,7 @@ const NavBar = () => {
                     {
                         user ? <>
                             <div className='flex items-center gap-2'>
-                                <div className="tooltip tooltip-bottom" data-tip={user.displayName}>
+                                <div className="tooltip tooltip-bottom" data-tip={user?.displayName}>
                                     <img
                                         src={user?.photoURL || 'https://i.ibb.co/2n4v7Zg/default-avatar.png'}
                                         alt="profile"
