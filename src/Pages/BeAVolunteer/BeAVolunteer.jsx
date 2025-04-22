@@ -1,12 +1,13 @@
 import React, { useContext } from 'react';
-import { useLoaderData } from 'react-router-dom';
+import { useLoaderData, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../Provider/AuthProvider';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 
 const BeAVolunteer = () => {
     const {user} = useContext(AuthContext)
-    const data = useLoaderData()
+    const data = useLoaderData();
+    const navigate = useNavigate()
     console.log(data)
     const {thumbnail,
         title,
@@ -35,6 +36,7 @@ const BeAVolunteer = () => {
                             showConfirmButton: false,
                             timer: 1500
                         });
+                        navigate('/manageMyPosts')
                     }
                 })
     
@@ -43,7 +45,7 @@ const BeAVolunteer = () => {
         <div className="hero bg-base-200 min-h-screen">
         <div className="hero-content flex-col lg:flex-row-reverse">
             <div className="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl">
-                <h1 className="text-5xl font-bold">Be a volunteer</h1>
+                <h1 className="text-2xl md:text-3xl lg:text-5xl font-bold">Be a volunteer</h1>
                 <form className="card-body" onSubmit={handleVolunteer}>
 
                     <fieldset className="fieldset">

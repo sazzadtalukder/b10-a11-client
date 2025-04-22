@@ -48,7 +48,7 @@ const AllVolunteerNeedPosts = () => {
       
       {
         isTableLayout ? <> <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        {posts.slice(0, 6).map((post) => (
+                        {posts.map((post) => (
                             <div
                                 key={post._id}
                                 className="card bg-white shadow-md hover:shadow-2xl  rounded-2xl overflow-hidden"
@@ -70,7 +70,7 @@ const AllVolunteerNeedPosts = () => {
                                             <span className="font-medium">Deadline:</span> {post.deadline}
                                         </p>
                                     </div>
-                                    <div className="card-actions justify-center">
+                                    <div className="card-actions justify-center ">
                                         <Link to={`/allVolunteer/${post._id}`}>
                                             <button className="btn btn-primary w-full">View Details</button>
                                         </Link>
