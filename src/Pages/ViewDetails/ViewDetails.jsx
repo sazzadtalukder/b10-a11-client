@@ -2,8 +2,10 @@
 import React from 'react';
 import { Link, useLoaderData } from 'react-router-dom';
 import Swal from 'sweetalert2';
+import UseTitle from '../../Hook/UseTitle';
 
 const ViewDetails = () => {
+    UseTitle('View Details | VolunteerHub');
   const data = useLoaderData();
   const {
     thumbnail,
@@ -17,7 +19,7 @@ const ViewDetails = () => {
     organizerEmail,
     _id
   } = data;
-console.log(data)
+// console.log(data)
   const handleVolunteer = () => {
     if (volunteersNeeded < 1) {
       Swal.fire({

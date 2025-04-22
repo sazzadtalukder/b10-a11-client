@@ -14,10 +14,12 @@ import ViewDetails from '../Pages/ViewDetails/ViewDetails';
 import BeAVolunteer from '../Pages/BeAVolunteer/BeAVolunteer';
 import ManageMyPosts from '../Pages/ManageMyPosts/ManageMyPosts';
 import UpdatePost from '../Pages/UpdatePost/UpdatePost';
+import ErrorPage from '../Pages/ErrorPage/ErrorPage';
   const router = createBrowserRouter([
     {
       path: "/",
       element: <Root></Root>,
+      errorElement: <ErrorPage></ErrorPage>,
       children: [
         {
             path: '/',
@@ -32,9 +34,9 @@ import UpdatePost from '../Pages/UpdatePost/UpdatePost';
         },
         {
             path: '/myProfile',
-            element: <MyProfile></MyProfile>
+            element: <PrivateRouter><MyProfile></MyProfile></PrivateRouter>
         },{
-            path: 'allVolunteerNeedPosts',
+            path: '/allVolunteerNeedPosts',
             element: <AllVolunteerNeedPosts></AllVolunteerNeedPosts>
         },
         {
@@ -43,19 +45,19 @@ import UpdatePost from '../Pages/UpdatePost/UpdatePost';
         },{
             path: '/allVolunteer/:id',
             element: <PrivateRouter><ViewDetails></ViewDetails></PrivateRouter>,
-            loader: ({params})=>fetch(`http://localhost:5000/allVolunteer/${params.id}`)
+            loader: ({params})=>fetch(`https://b10-a11-server-six.vercel.app/allVolunteer/${params.id}`)
         },
         {
                 path: '/beAVolunteer/:id',
                 element: <PrivateRouter><BeAVolunteer></BeAVolunteer></PrivateRouter>,
-                loader: ({params})=>fetch(`http://localhost:5000/allVolunteer/${params.id}`)
+                loader: ({params})=>fetch(`https://b10-a11-server-six.vercel.app/allVolunteer/${params.id}`)
             },{
                 path: '/manageMyPosts',
                 element: <PrivateRouter><ManageMyPosts></ManageMyPosts></PrivateRouter>
             },{
                 path: '/updatePost/:id',
                 element: <PrivateRouter><UpdatePost></UpdatePost></PrivateRouter>,
-                loader: ({params})=> fetch(`http://localhost:5000/allVolunteer/${params.id}`)
+                loader: ({params})=> fetch(`https://b10-a11-server-six.vercel.app/allVolunteer/${params.id}`)
             }
         
       ]

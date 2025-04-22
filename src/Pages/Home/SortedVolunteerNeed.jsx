@@ -20,41 +20,26 @@ import { Link } from 'react-router-dom';
 // }
 const SortedVolunteerNeed = () => {
     const [posts, setPosts] = useState([])
+    const [loader,setLoader] = useState(true)
     useEffect(() => {
-        axios.get(`http://localhost:5000/allVolunteer`)
+        setLoader(true)
+        axios.get(`https://b10-a11-server-six.vercel.app/allVolunteer`)
             .then(res => {
                 const newData = res.data.sort((a, b) => new Date(a.deadline) - new Date(b.deadline))
                 setPosts(newData)
+                setLoader(false)
 
             })
     }, [])
 
-    console.log(posts)
+    // console.log(posts)
+    if(loader)
+        return <div className="flex justify-center items-center h-60">
+    <span className="loading loading-spinner loading-lg text-neutral"></span>
+  </div>
     return (
         <div>
-            {/* <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3'>
-                {
-                    posts.slice(0, 6).map((post) => <div key={post._id} className="card bg-base-100  shadow-sm">
-                        <figure>
-                            <img
-                                c
-                                src={post.thumbnail}
-                                alt="Shoes" />
-                        </figure>
-                        <div className="card-body">
-                            <h2 className="card-title">{post.title}</h2>
-                            <div className='md:flex justify-between '>
-                                <p>Category: {post.category}</p>
-                                <p>Deadline: {post.deadline}</p>
-                            </div>
-
-                            <div className="card-actions justify-center">
-                                <Link to={`/allVolunteer/${post._id}`}><button className="btn btn-primary">View Details</button></Link>
-                            </div>
-                        </div>
-                    </div>)
-                }
-            </div> */}
+            
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {posts.slice(0, 6).map((post) => (
                     <div
@@ -87,7 +72,9 @@ const SortedVolunteerNeed = () => {
                     </div>
                 ))}
             </div>
-
+                <div className='my-10'>
+                    <Link to='/allVolunteerNeedPosts' ><button className='btn btn-primary'>See All Posts</button></Link>
+                </div>
         </div>
     );
 };

@@ -3,12 +3,14 @@ import { useLoaderData, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../Provider/AuthProvider';
 import axios from 'axios';
 import Swal from 'sweetalert2';
+import UseTitle from '../../Hook/UseTitle';
 
 const BeAVolunteer = () => {
+    UseTitle('Be a volunteer | VolunteerHub');
     const {user} = useContext(AuthContext)
     const data = useLoaderData();
     const navigate = useNavigate()
-    console.log(data)
+    // console.log(data)
     const {thumbnail,
         title,
         description,
@@ -24,9 +26,9 @@ const BeAVolunteer = () => {
             const formData = new FormData(e.target);
             const initialData = Object.fromEntries(formData.entries());
             
-            console.log(initialData);
+            // console.log(initialData);
             
-            axios.post(`http://localhost:5000/addVolunteerRequested/${data._id}`, initialData,{withCredentials: true})
+            axios.post(`https://b10-a11-server-six.vercel.app/addVolunteerRequested/${data._id}`, initialData,{withCredentials: true})
                 .then(res => {
                     if (res.data.insertedId) {
                         Swal.fire({

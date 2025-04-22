@@ -4,7 +4,9 @@ import { AuthContext } from '../../Provider/AuthProvider';
 import { updateProfile } from 'firebase/auth';
 import Swal from 'sweetalert2';
 import auth from '../../Firebase/Firebase.config'
+import UseTitle from '../../Hook/UseTitle';
 const Register = () => {
+    UseTitle('Register | VolunteerHub');
     const [error, setError] = useState({})
     const navigate = useNavigate();
     const { createUser, updateUserProfile, setUser } = useContext(AuthContext)
@@ -18,7 +20,7 @@ const Register = () => {
         // console.log(email,password)
         createUser(email, password)
             .then(result => {
-                console.log(result.user)
+                // console.log(result.user)
                 updateUserProfile({
                     displayName: name,
                     photoURL: profileImage
@@ -26,7 +28,7 @@ const Register = () => {
                 .then(()=>{
                     result.user.reload()
                     .then(() => {
-                        console.log("After reload:", auth.currentUser);
+                        // console.log("After reload:", auth.currentUser);
                         setUser({ ...result.user, displayName: name, photoURL: profileImage })
                         
                     });
@@ -45,7 +47,7 @@ const Register = () => {
                 navigate('/')
             })
             .catch(er => {
-                console.log(er)
+                // console.log(er)
                 Swal.fire({
                     icon: "error",
                     title: "Oops...",
@@ -76,13 +78,11 @@ const Register = () => {
         <div className="hero bg-base-200 min-h-screen">
             <div className="hero-content flex-col lg:flex-row-reverse">
                 <div className="text-center lg:text-left">
-                    <h1 className="text-5xl font-bold">Register now!</h1>
-                    <p className="py-6">
-                        Provident cupiditate voluptatem et in. Quaerat fugiat ut assumenda excepturi exercitationem
-                        quasi. In deleniti eaque aut repudiandae et a id nisi.
-                    </p>
+                    
+                    
                 </div>
                 <div className="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl">
+                <h1 className="text-3xl md:text-4xl  lg:text-5xl font-bold">Register now!</h1>
                     <form className="card-body" onSubmit={handleRegister}>
                         <fieldset className="fieldset">
                             <label className="label">Name</label>
@@ -101,9 +101,9 @@ const Register = () => {
                                 </label>
 
                             }
-                            <div><a className="link link-hover">Forgot password?</a></div>
+                           
                             <button className="btn btn-neutral mt-4">Register</button>
-                            <p>Already have an Account? Please <Link to='/login'>Login</Link></p>
+                            <p>Already have an Account? Please <Link to='/login'><span className='text-red-700 font-bold'>Login</span></Link></p>
                         </fieldset>
                     </form>
                 </div>

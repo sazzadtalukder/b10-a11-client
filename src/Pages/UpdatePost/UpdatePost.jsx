@@ -1,11 +1,15 @@
 import React, { useContext } from 'react';
 import { AuthContext } from '../../Provider/AuthProvider';
-import { useLoaderData } from 'react-router-dom';
+import { useLoaderData, useLocation, useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import axios from 'axios';
+import UseTitle from '../../Hook/UseTitle';
 
 const UpdatePost = () => {
+    UseTitle('Update Post | VolunteerHub');
     const { user } = useContext(AuthContext);
+    const navigate = useNavigate()
+    const locationS = useLocation();
     const data = useLoaderData();
     const { thumbnail,
         title,
@@ -21,10 +25,10 @@ const UpdatePost = () => {
         const formData = new FormData(e.target);
         const initialData = Object.fromEntries(formData.entries());
 
-        console.log(initialData);
-        axios.put(`http://localhost:5000/updatePost/${data._id}`, initialData,{withCredentials: true})
+        // console.log(initialData);
+        axios.put(`https://b10-a11-server-six.vercel.app/updatePost/${data._id}`, initialData,{withCredentials: true})
             .then(res => {
-                console.log(res.data)
+                // console.log(res.data)
                 if (res.data.modifiedCount) {
                     Swal.fire({
                         position: "top-end",
@@ -33,6 +37,7 @@ const UpdatePost = () => {
                         showConfirmButton: false,
                         timer: 1500
                     });
+                    navigate(locationS?.state ? locationS.state : '/')
                 }
             })
 

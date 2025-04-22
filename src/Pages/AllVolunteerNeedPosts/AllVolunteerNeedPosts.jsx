@@ -1,8 +1,10 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import UseTitle from '../../Hook/UseTitle';
 
 const AllVolunteerNeedPosts = () => {
+  UseTitle('All volunteer need posts | VolunteerHub');
   const [posts, setPosts] = useState([])
   const [search, setSearch] = useState('')
   const [isTableLayout, setIsTableLayout] = useState(true);
@@ -12,10 +14,10 @@ const AllVolunteerNeedPosts = () => {
     e.preventDefault();
     setSearch(e.target.searchTitle.value);
   }
-  console.log(search)
+  // console.log(search)
   useEffect(() => {
     setLoader(true)
-    axios.get(`http://localhost:5000/allVolunteer?title=${search}`)
+    axios.get(`https://b10-a11-server-six.vercel.app/allVolunteer?title=${search}`)
       .then(res => {
         setPosts(res.data)
         setLoader(false)
@@ -30,7 +32,7 @@ const AllVolunteerNeedPosts = () => {
       }
 
 
-     
+
       <form className="card-body space-y-4" onSubmit={handleSearch}>
         <p className="text-lg font-medium">Search post by Title</p>
 
@@ -92,22 +94,27 @@ const AllVolunteerNeedPosts = () => {
             <div className="overflow-x-auto">
               <table className="table">
                 {/* head */}
-                <thead>
+                <thead className='bg-gray-100 text-gray-700'>
                   <tr>
-                    <th></th>
-                    <th>Name</th>
-                    <th>Job</th>
-                    <th>Favorite Color</th>
+                    <th>#</th>
+                    <th>Title</th>
+                    <th>Location</th>
+                    <th>Category</th>
+                    <th>Deadline</th>
+                    <th>Details</th>
                   </tr>
                 </thead>
                 <tbody>
                   {
                     posts.map((post, indx) => <tr key={indx}>
-                      <th>{indx + 1}</th>
+                      <th>{indx+1}</th>
                       <td>{post.title}</td>
                       <td>{post.location}</td>
-                      <td><Link to={`/updatePost/${post._id}`}><button>Update</button></Link></td>
-                      <td><button onClick={() => handleDelete(post._id)}>Delete</button></td>
+                      <td>{post.category}</td>
+                      <td>{post.deadline}</td>
+                      <td><Link to={`/allVolunteer/${post._id}`}>
+                        <button className="btn btn-primary w-full">View Details</button>
+                      </Link></td>
                     </tr>)
                   }
 

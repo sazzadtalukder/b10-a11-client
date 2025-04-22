@@ -2,15 +2,17 @@ import React, { use, useContext } from 'react';
 import { AuthContext } from '../../Provider/AuthProvider';
 import axios from 'axios';
 import Swal from 'sweetalert2';
+import UseTitle from '../../Hook/UseTitle';
 
 const AddVolunteerNeedPost = () => {
+    UseTitle('Add Volunteer | VolunteerHub');
     const { user } = useContext(AuthContext)
     const handleAddPost = e => {
         e.preventDefault();
         const formData = new FormData(e.target);
         const initialData = Object.fromEntries(formData.entries());
-        console.log(initialData);
-        axios.post('http://localhost:5000/addVolunteer', initialData)
+        // console.log(initialData);
+        axios.post('https://b10-a11-server-six.vercel.app/addVolunteer', initialData)
             .then(res => {
                 if (res.data.insertedId) {
                     Swal.fire({
